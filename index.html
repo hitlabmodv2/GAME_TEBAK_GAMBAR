@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak Gambar - Game Seru</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-controls">
+                <!-- Music Player -->
+                <div class="music-player" id="musicPlayer">
+                    <div class="music-controls-compact">
+                        <button class="control-btn-mini" id="headerPreviousBtn" title="Previous Song">⏮️</button>
+                        <button class="music-toggle" id="musicToggle" title="Play/Pause Music">
+                            <span class="music-icon">▶️</span>
+                        </button>
+                        <button class="control-btn-mini" id="headerNextBtn" title="Next Song">⏭️</button>
+                    </div>
+                    <div class="music-info">
+                        <div class="music-header">
+                            <span class="music-status" id="musicStatus">Ready</span>
+                        </div>
+                        <div class="music-progress">
+                            <div class="progress-track" id="progressTrack">
+                                <div class="progress-filled" id="musicProgress"></div>
+                            </div>
+                        </div>
+                        <div class="music-time">
+                            <span class="current-time" id="currentTime">0:00</span>
+                            <span class="total-time" id="totalTime">0:00</span>
+                        </div>
+                        <div class="song-info">
+                            <span class="song-title" id="songTitle">三原色 (Sangenai)</span>
+                            <span class="song-artist" id="songArtist">YOASOBI</span>
+                        </div>
+                    </div>
+                    <div class="volume-control">
+                        <span class="volume-icon" id="volumeIcon">🔊</span>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider">
+                        <span class="volume-percent" id="volumePercent">50%</span>
+                    </div>
+                </div>
+                
+                <button class="theme-toggle" id="themeToggle">
+                    <span class="theme-icon">☀️</span>
+                </button>
+            </div>
+            
+            <!-- Hidden Audio Element -->
+            <audio id="backgroundMusic" preload="metadata" loop controls style="display: none;">
+                <source src="./MUSIK/YOASOBI「三原色」Official Music Video [nhOhFOoURnE] (1).mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </header>
+
+        <!-- Main Menu -->
+        <div class="main-menu" id="mainMenu">
+            <div class="menu-content">
+                <div class="game-logo">
+                    <h2>Tebak Gambar</h2>
+                    <p>Game asah otak yang seru dan menantang!</p>
+                </div>
+
+                <div class="menu-buttons">
+                    <button class="btn btn-primary" id="startGameBtn">
+                        <span class="btn-icon">🎮</span>
+                        Mulai Permainan
+                    </button>
+
+                    <button class="btn btn-settings" id="settingsBtn">
+                        <span class="btn-icon">⚙️</span>
+                        Pengaturan
+                    </button>
+
+                    <button class="btn btn-help" id="helpBtn">
+                        <span class="btn-icon">❓</span>
+                        Cara Bermain
+                    </button>
+
+                    <button class="btn btn-about" id="aboutBtn">
+                        <span class="btn-icon">ℹ️</span>
+                        Tentang Game
+                    </button>
+
+                    <button class="btn btn-developer" id="developerBtn">
+                        <span class="btn-icon">👨‍💻</span>
+                        My Developer
+                    </button>
+
+                    <button class="btn btn-uptime" id="uptimeBtn">
+                        <span class="btn-icon">📊</span>
+                        Uptime & Server Info
+                    </button>
+
+                    <button class="btn btn-music" id="musicPlayerBtn">
+                        <span class="btn-icon">🎵</span>
+                        Pemutar Musik
+                    </button>
+                </div>
+
+                <div class="stats-preview">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalQuestionsCount">0</span>
+                        <span class="stat-label">Total Soal</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="highScoreDisplay">0</span>
+                        <span class="stat-label">Skor Tertinggi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-content">
+                <div class="panel-header">
+                    <h3>⚙️ Pengaturan</h3>
+                    <button class="close-btn" id="closeSettings">×</button>
+                </div>
+                <div>
+                    <div class="settings-intro">
+                        <div class="settings-icon">🎯</div>
+                        <h4>Pilih Mode Permainan</h4>
+                        <p>Sesuaikan pengalaman bermain sesuai preferensi Anda</p>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="difficultySelect">🎲 Tingkat Kesulitan</label>
+                            <span class="setting-badge">Pilih Challenge</span>
+                        </div>
+                        <select id="difficultySelect" class="enhanced-select">
+                            <option value="easy">🟢 Mudah (Level 1-10) - Cocok untuk pemula</option>
+                            <option value="medium">🟡 Sedang (Level 11-20) - Tantangan seimbang</option>
+                            <option value="hard">🔴 Sulit (Level 21-35) - Untuk ahli tebak gambar</option>
+                            <option value="all" selected>🌈 Semua Level - Pengalaman lengkap</option>
+                        </select>
+                        <div class="setting-description">
+                            <p>Pilih level kesulitan sesuai kemampuan Anda untuk pengalaman bermain yang optimal</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="questionsPerGame">📊 Jumlah Soal per Game</label>
+                            <span class="setting-badge">Durasi Main</span>
+                        </div>
+                        <select id="questionsPerGame" class="enhanced-select">
+                            <option value="5" selected>⚡ 5 Soal - Cepat (≈ 5 menit)</option>
+                            <option value="10">🎯 10 Soal - Normal (≈ 10 menit)</option>
+                            <option value="15">🔥 15 Soal - Extended (≈ 15 menit)</option>
+                            <option value="20">🏆 20 Soal - Marathon (≈ 20 menit)</option>
+                        </select>
+                        <div class="setting-description">
+                            <p>Tentukan berapa lama Anda ingin bermain dalam satu sesi</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label>🎨 Tema Tampilan</label>
+                            <span class="setting-badge">Visual Mode</span>
+                        </div>
+                        <div class="theme-options enhanced">
+                            <button class="theme-option" data-theme="light">
+                                <div class="theme-preview light"></div>
+                                <span>🌞 Siang</span>
+                                <small>Terang & Fresh</small>
+                            </button>
+                            <button class="theme-option active" data-theme="dark">
+                                <div class="theme-preview dark"></div>
+                                <span>🌙 Malam</span>
+                                <small>Gelap & Nyaman</small>
+                            </button>
+                            <button class="theme-option" data-theme="auto">
+                                <div class="theme-preview auto"></div>
+                                <span>🌗 Otomatis</span>
+                                <small>Sesuai Waktu</small>
+                            </button>
+                        </div>
+                        <div class="setting-description">
+                            <p>Pilih tema yang paling nyaman untuk mata Anda</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="backgroundType">🖼️ Background Game</label>
+                            <span class="setting-badge">Atmosphere</span>
+                        </div>
+                        <select id="backgroundType" class="enhanced-select">
+                            <option value="default">🎯 Default - Minimalis & Fokus</option>
+                            <option value="anime">🎨 Anime Pilihan - Kustomisasi sendiri</option>
+                            <option value="random">🎲 Anime Random - Surprise setiap game</option>
+                        </select>
+                        <div class="setting-description">
+                            <p>Atur suasana bermain dengan background yang Anda sukai</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-header">
+                            <label for="backgroundSelect">🖼️ Pilih Background Anime</label>
+                        </div>
+                        <select id="backgroundSelect" class="enhanced-select" style="display: none;">
+                            <option value="0">🌸 Anime Girl 1 - Pink Hair Beauty</option>
+                            <option value="1">💙 Anime Girl 2 - Blue Theme</option>
+                            <option value="2">✨ Anime Girl 3 - Golden Style</option>
+                            <option value="3">🌺 Anime Girl 4 - Elegant Look</option>
+                            <option value="4">🎀 Anime Girl 5 - Sweet & Cute</option>
+                            <option value="5">💜 Anime Girl 6 - Purple Tone</option>
+                            <option value="6">🌙 Night Sky - Peaceful Scene</option>
+                            <option value="7">🎌 Japanese Style - Traditional</option>
+                            <option value="8">🌅 Anime Sunset - Warm Colors</option>
+                            <option value="9">💫 Galaxy Theme - Space Beauty</option>
+                            <option value="10">🌸 Cherry Blossom - Spring Vibes</option>
+                            <option value="11">🎨 Artistic Style - Creative Look</option>
+                            <option value="12">🌟 Starlight - Magical Scene</option>
+                            <option value="13">🦋 Butterfly Dream - Fantasy</option>
+                            <option value="14">📱 Mobile Wallpaper - Anime Girl</option>
+                            <option value="15">☁️ Cloud World - Sky Adventure</option>
+                            <option value="16">🌈 Colorful Anime - Vibrant</option>
+                            <option value="17">🎭 Mysterious Girl - Dark Beauty</option>
+                            <option value="18">🌊 Ocean Blue - Water Theme</option>
+                            <option value="19">🎪 Carnival Style - Fun & Bright</option>
+                            <option value="20">🌼 Flower Garden - Nature Beauty</option>
+                            <option value="21">⚡ Electric Style - Dynamic</option>
+                            <option value="22">🔥 Fire Element - Passionate</option>
+                        </select>
+                        <button id="refreshBackgrounds" class="btn-secondary" style="margin-top: 8px; width: 100%;">
+                            🔄 Deteksi Ulang Gambar
+                        </button>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="hintLimit">💡 Sistem Bantuan</label>
+                            <span class="setting-badge">Help System</span>
+                        </div>
+                        <select id="hintLimit" class="enhanced-select">
+                            <option value="unlimited">∞ Tidak Terbatas - Freedom mode</option>
+                            <option value="10">💡 10 Bantuan - Maximum help</option>
+                            <option value="9">💡 9 Bantuan - Very generous</option>
+                            <option value="8">💡 8 Bantuan - Extra generous</option>
+                            <option value="7">💡 7 Bantuan - Very helpful</option>
+                            <option value="6">💡 6 Bantuan - Helpful</option>
+                            <option value="5" selected>💡 5 Bantuan - Balanced challenge</option>
+                            <option value="4">💡 4 Bantuan - Moderate help</option>
+                            <option value="3">💡 3 Bantuan - Standard challenge</option>
+                            <option value="2">💡 2 Bantuan - Hard challenge</option>
+                            <option value="1">💡 1 Bantuan - Expert mode</option>
+                        </select>
+                        <div class="setting-description">
+                            <p>Atur jumlah petunjuk yang bisa digunakan per game</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="secondHintEnabled">🔍 Petunjuk Kedua (Advanced)</label>
+                            <span class="setting-badge">Pro Feature</span>
+                        </div>
+                        <div class="hint-toggle-container">
+                            <input type="checkbox" id="secondHintEnabled" checked>
+                            <label for="secondHintEnabled" class="toggle-switch">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Aktifkan Petunjuk Lengkap</span>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <label for="secondHintLimit" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">Batas Petunjuk Kedua per Game:</label>
+                            <select id="secondHintLimit" class="enhanced-select">
+                                <option value="unlimited">∞ Tidak Terbatas - Freedom mode</option>
+                                <option value="10">🔑 10 Petunjuk Kedua - Maximum help</option>
+                                <option value="9">🔑 9 Petunjuk Kedua - Very generous</option>
+                                <option value="8">🔑 8 Petunjuk Kedua - Extra generous</option>
+                                <option value="7">🔑 7 Petunjuk Kedua - Very helpful</option>
+                                <option value="6">🔑 6 Petunjuk Kedua - Helpful</option>
+                                <option value="5" selected>🔑 5 Petunjuk Kedua - Balanced challenge</option>
+                                <option value="4">🔑 4 Petunjuk Kedua - Moderate help</option>
+                                <option value="3">🔑 3 Petunjuk Kedua - Standard challenge</option>
+                                <option value="2">🔑 2 Petunjuk Kedua - Hard challenge</option>
+                                <option value="1">🔑 1 Petunjuk Kedua - Expert mode</option>
+                            </select>
+                        </div>
+                        <div class="setting-description">
+                            <p>Menampilkan petunjuk dengan format jawaban (contoh: In_d_o_e_s_a) untuk bantuan maksimal</p>
+                        </div>
+                    </div>
+
+                    <div class="setting-item featured">
+                        <div class="setting-header">
+                            <label for="soundToggle">🔊 Audio Experience</label>
+                            <span class="setting-badge">Sound</span>
+                        </div>
+                        <div class="sound-toggle-container">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <label for="soundToggle" class="toggle-switch">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Efek Suara Game</span>
+                        </div>
+                        <div class="setting-description">
+                            <p>Aktifkan untuk feedback audio saat menjawab soal</p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="settings-actions">
+                    <button class="btn btn-save" id="saveSettings">💾 Simpan Data</button>
+                    <button class="btn btn-default" id="resetSettings">🔄 Default Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area" id="gameArea">
+            <div class="game-header">
+                <div class="game-progress">
+                    <span class="question-counter" id="questionCounter">1 / 10</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                <div class="game-timer">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-display" id="timerDisplay">1:00</span>
+                </div>
+                <button class="btn btn-small" id="exitGameBtn">Keluar</button>
+            </div>
+
+            <div class="question-container">
+                <div class="image-container">
+                    <img id="questionImage" alt="Tebak Gambar" class="question-img">
+                    <div class="image-loader" id="imageLoader">Memuat gambar...</div>
+                </div>
+
+                <div class="hint-container">
+                    <div class="hint-buttons">
+                        <button id="showHintBtn" class="game-btn hint-btn">
+                            💡 Tampilkan Petunjuk
+                        </button>
+                        <button id="showSecondHintBtn" class="game-btn hint-btn hint-btn-advanced">
+                            🔑 Petunjuk Kedua
+                        </button>
+                    </div>
+                    <div class="hint-text" id="hintText"></div>
+                    <div class="hint-text hint-advanced" id="secondHintText"></div>
+                </div>
+
+                <div class="answer-container">
+                    <input type="text" id="answerInput" placeholder="Ketik jawabanmu disini..." class="answer-input">
+                    <div class="answer-buttons">
+                        <button class="btn btn-primary" id="submitAnswerBtn">Jawab</button>
+                        <button class="btn btn-secondary" id="skipQuestionBtn">Lewati</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Modal -->
+        <div class="modal" id="resultModal">
+            <div class="modal-content">
+                <div class="result-content">
+                    <div class="result-icon" id="resultIcon">🎉</div>
+                    <h3 id="resultTitle">Selamat!</h3>
+                    <div class="result-stats">
+                        <div class="result-stat">
+                            <span class="stat-label">Skor Total:</span>
+                            <span class="stat-value" id="finalScore">0</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">Benar:</span>
+                            <span class="stat-value" id="correctAnswers">0</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">Salah:</span>
+                            <span class="stat-value" id="wrongAnswers">0</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">Dilewati:</span>
+                            <span class="stat-value" id="skippedAnswers">0</span>
+                        </div>
+                    </div>
+                    <div class="result-message" id="resultMessage"></div>
+                    <div class="result-buttons">
+                        <button class="btn btn-primary" id="playAgainBtn">Main Lagi</button>
+                        <button class="btn btn-secondary" id="backToMenuBtn">Menu Utama</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Answer Feedback -->
+        <div class="feedback" id="feedback">
+            <div class="feedback-content">
+                <div class="feedback-icon" id="feedbackIcon">✅</div>
+                <div class="feedback-text" id="feedbackText">Benar!</div>
+                <div class="feedback-answer" id="feedbackAnswer"></div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div class="modal" id="helpModal">
+            <div class="help-content">
+                <div class="panel-header">
+                    <h3>❓ Cara Bermain</h3>
+                    <button class="close-btn" id="closeHelp">×</button>
+                </div>
+                <div>
+                    <div class="help-section">
+                        <h4>🎯 Tujuan Game</h4>
+                        <p>Tebak kata atau frasa yang digambarkan dalam setiap gambar. Game ini menguji kemampuan berpikir dan kosakata Anda!</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h4>🎮 Cara Bermain</h4>
+                        <ol>
+                            <li>Lihat gambar yang ditampilkan</li>
+                            <li>Ketik jawaban Anda di kotak input</li>
+                            <li>Klik "Jawab" untuk memeriksa jawaban</li>
+                            <li>Gunakan "💡 Petunjuk" jika kesulitan</li>
+                            <li>Klik "Lewati" jika ingin melewati soal</li>
+                        </ol>
+                    </div>
+
+                    <div class="help-section">
+                        <h4>📊 Sistem Penilaian</h4>
+                        <ul>
+                            <li>Jawaban benar: +10 poin</li>
+                            <li>Jawaban benar dengan petunjuk: +5 poin</li>
+                            <li>Jawaban salah atau dilewati: 0 poin</li>
+                        </ul>
+                    </div>
+
+                    <div class="help-section">
+                        <h4>⚙️ Fitur Lainnya</h4>
+                        <ul>
+                            <li>Tema siang/malam</li>
+                            <li>Pilihan tingkat kesulitan</li>
+                            <li>Efek suara (dapat dimatikan)</li>
+                            <li>Statistik permainan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Modal -->
+        <div class="modal" id="aboutModal">
+            <div class="about-content">
+                <div class="panel-header">
+                    <h3>ℹ️ Tentang Game</h3>
+                    <button class="close-btn" id="closeAbout">×</button>
+                </div>
+                <div>
+                    <div class="about-section">
+                        <h4>🎲 Tebak Gambar</h4>
+                        <p>Game edukatif yang menguji kemampuan berpikir logis dan kosakata Anda. Dengan lebih dari 680 soal yang beragam!</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h4>🎨 Fitur Unggulan</h4>
+                        <ul>
+                            <li>680+ soal tebak gambar</li>
+                            <li>35 level berbeda</li>
+                            <li>Tema siang dan malam</li>
+                            <li>Sistem poin dan statistik</li>
+                            <li>Antarmuka ramah mobile</li>
+                            <li>Petunjuk untuk bantuan</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-section">
+                        <h4>💝 Terima Kasih</h4>
+                        <p>Game ini dibuat dengan ❤️ untuk menghibur dan mendidik. Selamat bermain!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Modal -->
+        <div class="modal" id="developerModal">
+            <div class="developer-content">
+                <div class="panel-header">
+                    <h3>👨‍💻 Developer Info</h3>
+                    <button class="close-btn" id="closeDeveloper">&times;</button>
+                </div>
+                <div>
+                    <div class="developer-profile">
+                        <div class="developer-avatar">
+                            <div class="avatar-icon">👨‍💻</div>
+                        </div>
+                        <div class="developer-info">
+                            <h2>Kennzy</h2>
+                            <p class="developer-title">Full Stack Developer</p>
+                            <div class="developer-details">
+                                <div class="detail-item">
+                                    <span class="detail-icon">📍</span>
+                                    <span>Bandung, Jawa Barat</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-icon">🎂</span>
+                                    <span>25 tahun</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-icon">📊</span>
+                                    <span>3+ tahun pengalaman</span>
+                                </div>
+                            </div>
+                            <div class="developer-quote">
+                                "Passionate about creating interactive experiences and bringing ideas to life through code."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="developer-stats">
+                        <h4>🎯 Keahlian & Pengalaman</h4>
+                        <div class="stats-container">
+                            <div class="stat-progress">
+                                <div class="stat-header">
+                                    <span class="stat-name">JavaScript & ES6+</span>
+                                    <span class="stat-percent">90%</span>
+                                </div>
+                                <div class="progress-bar-skill">
+                                    <div class="progress-fill-skill" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-progress">
+                                <div class="stat-header">
+                                    <span class="stat-name">HTML5 & CSS3</span>
+                                    <span class="stat-percent">95%</span>
+                                </div>
+                                <div class="progress-bar-skill">
+                                    <div class="progress-fill-skill" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-progress">
+                                <div class="stat-header">
+                                    <span class="stat-name">React & Node.js</span>
+                                    <span class="stat-percent">85%</span>
+                                </div>
+                                <div class="progress-bar-skill">
+                                    <div class="progress-fill-skill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-progress">
+                                <div class="stat-header">
+                                    <span class="stat-name">Mobile Development</span>
+                                    <span class="stat-percent">70%</span>
+                                </div>
+                                <div class="progress-bar-skill">
+                                    <div class="progress-fill-skill" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="developer-skills">
+                        <h4>🛠️ Teknologi & Tools</h4>
+                        <div class="skills-grid">
+                            <div class="skill-tag">JavaScript</div>
+                            <div class="skill-tag">HTML5/CSS3</div>
+                            <div class="skill-tag">React</div>
+                            <div class="skill-tag">Node.js</div>
+                            <div class="skill-tag">Python</div>
+                            <div class="skill-tag">Git</div>
+                        </div>
+                    </div>
+
+                    <div class="developer-projects">
+                        <h4>🚀 Portfolio Highlights</h4>
+                        <div class="project-item">
+                            <h5>🎮 Game Development</h5>
+                            <p>15+ Web Applications & 8+ Interactive Game Projects dengan fokus pada user experience dan performance optimization.</p>
+                        </div>
+                        <div class="project-item">
+                            <h5>💻 Web Applications</h5>
+                            <p>Specialized dalam Frontend Development, Backend API, dan Database Design dengan teknologi modern.</p>
+                        </div>
+                    </div>
+
+                    <div class="developer-message">
+                        <div class="message-box">
+                            <strong>💝 Pesan Developer</strong>
+                            <p>Terima kasih telah menggunakan game ini! Game ini dibuat dengan ❤️ untuk menghibur dan mengedukasi.</p>
+                            <p>Feedback dan saran sangat dihargai untuk pengembangan yang lebih baik di masa depan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Uptime & Server Info Modal -->
+        <div class="modal" id="uptimeModal">
+            <div class="uptime-content">
+                <div class="panel-header">
+                    <h3>📊 Uptime & Server Info</h3>
+                    <button class="close-btn" id="closeUptime">×</button>
+                </div>
+                <div>
+                    <div class="uptime-dashboard">
+                        <div class="status-indicator">
+                            <div class="status-icon online" id="serverStatus">🟢</div>
+                            <div class="status-text">
+                                <h4>Server Status: <span id="statusText">Online</span></h4>
+                                <p id="statusDescription">Server berjalan dengan normal</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uptime-stats-grid">
+                        <div class="stat-card primary">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-info">
+                                <h5>Uptime</h5>
+                                <p class="stat-value" id="uptimeValue">Calculating...</p>
+                                <small id="uptimeDetail">Server runtime</small>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">🚀</div>
+                            <div class="stat-info">
+                                <h5>Load Speed</h5>
+                                <p class="stat-value" id="loadSpeed">Calculating...</p>
+                                <small>Page load time</small>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">💾</div>
+                            <div class="stat-info">
+                                <h5>Memory Usage</h5>
+                                <p class="stat-value" id="memoryUsage">Calculating...</p>
+                                <div class="metric-detail" id="memoryDetail">Application memory</div>
+                            </div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" id="memoryFill"></div>
+                            </div>
+                            <div class="metric-status" id="memoryStatus">Checking...</div>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-label">🧠 Total RAM</div>
+                            <div class="metric-value" id="totalRam">Loading...</div>
+                            <div class="metric-detail" id="ramDetail">System Memory</div>
+                        </div>
+
+                        <div class="metric-item">
+                            <div class="metric-label">📊 Used RAM</div>
+                            <div class="metric-value" id="usedRam">Loading...</div>
+                            <div class="metric-detail">Current Usage</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">🖥️</div>
+                            <div class="stat-info">
+                                <h5>CPU Usage</h5>
+                                <p class="stat-value" id="cpuUsage">Calculating...</p>
+                                <small id="cpuDetail">Processing power</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="server-specs">
+                        <h4>🔧 Server Specifications</h4>
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <span class="spec-label">🌐 Platform:</span>
+                                <span class="spec-value" id="platformInfo">Replit</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">💻 Browser:</span>
+                                <span class="spec-value" id="browserInfo">Detecting...</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">📱 Device:</span>
+                                <span class="spec-value" id="deviceInfo">Detecting...</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">🖼️ Screen:</span>
+                                <span class="spec-value" id="screenInfo">Detecting...</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">🌍 Connection:</span>
+                                <span class="spec-value" id="connectionInfo">Detecting...</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">📍 Location:</span>
+                                <span class="spec-value" id="locationInfo">Detecting...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-metrics">
+                        <h4>📈 Performance Metrics</h4>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <span class="metric-label">🎯 Response Time</span>
+                                    <span class="metric-status good" id="responseStatus">Excellent</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="responseFill" style="width: 95%"></div>
+                                </div>
+                                <div class="metric-value" id="responseTime">< 100ms</div>
+                            </div>
+
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <span class="metric-label">💾 Memory Health</span>
+                                    <span class="metric-status good" id="memoryStatus">Optimal</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="memoryFill" style="width: 75%"></div>
+                                </div>
+                                <div class="metric-value" id="memoryHealth">Available</div>
+                            </div>
+
+                            <div class="metric-item">
+                                <div class="metric-header">
+                                    <span class="metric-label">🔄 Stability</span>
+                                    <span class="metric-status good" id="stabilityStatus">Stable</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="stabilityFill" style="width: 90%"></div>
+                                </div>
+                                <div class="metric-value" id="stabilityValue">99.9%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="system-info">
+                        <h4>⚙️ Technical Details</h4>
+                        <div class="tech-details">
+                            <div class="detail-section">
+                                <h6>🌐 Network Information</h6>
+                                <div class="detail-grid">
+                                    <span>Protocol:</span><span id="protocolInfo">HTTP/1.1</span>
+                                    <span>Port:</span><span id="portInfo">3000</span>
+                                    <span>IP Address:</span><span id="ipInfo">Detecting...</span>
+                                    <span>User Agent:</span><span id="userAgent">Detecting...</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-section">
+                                <h6>📊 Runtime Stats</h6>
+                                <div class="detail-grid">
+                                    <span>Engine:</span><span id="engineInfo">Node.js/Browser</span>
+                                    <span>Language:</span><span id="languageInfo">JavaScript</span>
+                                    <span>Framework:</span><span id="frameworkInfo">Vanilla JS</span>
+                                    <span>Build:</span><span id="buildInfo">Development</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uptime-actions">
+                        <button class="btn btn-refresh" id="refreshStats">
+                            <span class="btn-icon">🔄</span>
+                            Refresh Data
+                        </button>
+                        <button class="btn btn-test" id="testConnection">
+                            <span class="btn-icon">🧪</span>
+                            Test Connection
+                        </button>
+                    </div>
+
+                    <div class="uptime-footer">
+                        <div class="footer-stats">
+                            <div class="footer-stat">
+                                <span class="stat-icon">📅</span>
+                                <span>Last Check: <span id="lastCheck">Now</span></span>
+                            </div>
+                            <div class="footer-stat">
+                                <span class="stat-icon">🔔</span>
+                                <span>Status: <span id="healthStatus">All Systems Operational</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Player Modal -->
+        <div class="modal" id="musicPlayerModal">
+            <div class="music-player-modal">
+                <div class="panel-header">
+                    <h3>🎵 Pemutar Musik</h3>
+                    <button class="close-btn" id="closeMusicPlayer">×</button>
+                </div>
+                <div class="music-player-content">
+                    <div class="music-dashboard">
+                        <div class="music-artwork">
+                            <span>🎵</span>
+                        </div>
+                        <h3 class="music-title" id="modalMusicTitle">三原色 (Sangenai)</h3>
+                        <p class="music-artist" id="modalMusicArtist">YOASOBI</p>
+                        
+                        <div class="music-controls">
+                            <button class="control-btn" id="previousBtn" title="Previous Song">⏮️</button>
+                            <button class="control-btn" id="seekBackwardBtn" title="Mundur 3 Detik">⏪</button>
+                            <button class="control-btn play" id="playPauseBtn" title="Play/Pause">▶️</button>
+                            <button class="control-btn" id="seekForwardBtn" title="Maju 3 Detik">⏩</button>
+                            <button class="control-btn" id="nextBtn" title="Next Song">⏭️</button>
+                            <button class="control-btn" id="playlistBtnModal" title="Daftar Lagu">📋</button>
+                        </div>
+
+                        <div class="music-progress-container">
+                            <div class="progress-info">
+                                <span id="modalCurrentTime">0:00</span>
+                                <span id="modalTotalTime">0:00</span>
+                            </div>
+                            <div class="progress-track" id="modalProgressTrack">
+                                <div class="progress-filled" id="modalMusicProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="volume-section">
+                        <div class="volume-header">
+                            <h4>🔊 Kontrol Volume</h4>
+                            <span id="modalVolumePercent">50%</span>
+                        </div>
+                        <div class="volume-controls">
+                            <span class="volume-icon" id="modalVolumeIcon">🔊</span>
+                            <input type="range" id="modalVolumeSlider" min="0" max="100" value="50" class="volume-slider-large">
+                            <button class="control-btn" id="muteBtn">🔇</button>
+                        </div>
+                    </div>
+
+                    <div class="music-features">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎧</div>
+                            <div class="feature-info">
+                                <h5>Audio Berkualitas</h5>
+                                <p>Musik dengan kualitas tinggi untuk pengalaman terbaik</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <div class="feature-info">
+                                <h5>Loop Otomatis</h5>
+                                <p>Musik akan diputar berulang secara otomatis</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">🎮</div>
+                            <div class="feature-info">
+                                <h5>Background Gaming</h5>
+                                <p>Musik latar yang sempurna untuk bermain game</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-info">
+                                <h5>Mobile Friendly</h5>
+                                <p>Kompatibel dengan semua perangkat mobile</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="music-actions">
+                        <button class="music-action-btn btn-primary" id="playFullscreenBtn">
+                            🎵 Putar
+                        </button>
+                        <button class="music-action-btn btn-playlist" id="playlistBtn">
+                            📋 Daftar
+                        </button>
+                        <button class="music-action-btn btn-help" id="songDetailsBtn">
+                            ℹ️ Detail
+                        </button>
+                        <button class="music-action-btn btn-secondary" id="closeMusicPlayerBtn">
+                            ❌ Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Song Details Modal -->
+        <div class="modal" id="songDetailsModal">
+            <div class="modal-content">
+                <div class="panel-header">
+                    <h3>📋 Detail Lagu</h3>
+                    <button class="close-btn" id="closeSongDetails">×</button>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <div class="song-details-header">
+                        <div class="song-artwork">
+                            <span>🎵</span>
+                        </div>
+                        <div class="song-basic-info">
+                            <h3 id="detailSongTitle">三原色 (Sangenai)</h3>
+                            <p id="detailSongArtist">YOASOBI</p>
+                        </div>
+                    </div>
+
+                    <div class="song-details-table">
+                        <table class="details-table">
+                            <tr>
+                                <td class="detail-label">📅 Rilis Digital:</td>
+                                <td class="detail-value" id="detailRilisDigital">2 Juli 2021</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">💿 Rilis CD:</td>
+                                <td class="detail-value" id="detailRilisCD">The Book 2</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🎌 Anime:</td>
+                                <td class="detail-value" id="detailAnime">Tidak terkait dengan anime</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">💡 Inspirasi:</td>
+                                <td class="detail-value" id="detailInspirasi">Tema warna primer RGB</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🎬 Music Video:</td>
+                                <td class="detail-value" id="detailMv">Visual RGB yang mendalam</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">👀 Views:</td>
+                                <td class="detail-value" id="detailViews">200+ juta views</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🏆 Penghargaan:</td>
+                                <td class="detail-value" id="detailPenghargaan">Billboard Japan Hot 100 #4</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">⏱️ Durasi:</td>
+                                <td class="detail-value" id="detailDurasi">3:44</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🎹 Key:</td>
+                                <td class="detail-value" id="detailKey">RGB Theme</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🥁 BPM:</td>
+                                <td class="detail-value" id="detailBpm">134 BPM</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">🎼 Genre:</td>
+                                <td class="detail-value" id="detailGenre">J-Pop</td>
+                            </tr>
+                            <tr id="detailKolaboratorRow" style="display: none;">
+                                <td class="detail-label">🎺 Kolaborator:</td>
+                                <td class="detail-value" id="detailKolaborator">-</td>
+                            </tr>
+                            <tr id="detailVersiInggrisRow" style="display: none;">
+                                <td class="detail-label">🇺🇸 Versi Inggris:</td>
+                                <td class="detail-value" id="detailVersiInggris">-</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="song-details-actions">
+                        <button class="btn btn-primary" onclick="game.toggleMusic()">
+                            <span class="btn-icon">🎵</span>
+                            Putar Lagu Ini
+                        </button>
+                        <button class="btn btn-secondary" onclick="game.hideSongDetails()">
+                            <span class="btn-icon">❌</span>
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Playlist Modal -->
+        <div class="modal" id="playlistModal">
+            <div class="modal-content playlist-modal">
+                <div class="panel-header">
+                    <h3>📋 Daftar Lagu</h3>
+                    <button class="close-btn" id="closePlaylist">×</button>
+                </div>
+                <div class="playlist-content">
+                    <div class="playlist-header">
+                        <h4>🎵 Pilih Lagu yang Ingin Diputar</h4>
+                        <p>Total: <span id="totalSongs">3</span> lagu tersedia</p>
+                    </div>
+                    <div class="playlist-container" id="playlistContainer">
+                        <!-- Playlist items will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exit Confirmation Modal -->
+        <div class="modal" id="exitModal">
+            <div class="exit-confirmation">
+                <div class="exit-icon">⚠️</div>
+                <h3 class="exit-title">Keluar dari Permainan?</h3>
+                <p class="exit-message">Progress permainan akan hilang dan tidak dapat dikembalikan</p>
+                <div class="exit-stats">
+                    <div class="exit-stat">
+                        <span class="stat-label">Soal Dijawab:</span>
+                        <span class="stat-value" id="exitCurrentQuestion">0</span>
+                    </div>
+                    <div class="exit-stat">
+                        <span class="stat-label">Skor Saat Ini:</span>
+                        <span class="stat-value" id="exitCurrentScore">0</span>
+                    </div>
+                </div>
+                <div class="exit-buttons">
+                    <button class="btn btn-cancel" id="cancelExitBtn">
+                        <span class="btn-icon">❌</span>
+                        Batal
+                    </button>
+                    <button class="btn btn-exit" id="confirmExitBtn">
+                        <span class="btn-icon">🚪</span>
+                        Keluar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Powered By: <a href="https://wa.me/6289688206739" target="_blank" class="footer-link">Bang Wily</a></p>
+            <div class="footer-links">
+                <span>Game Tebak Gambar © 2025</span>
+            </div>
+            <div class="footer-clock" id="footerClock">
+                <div class="footer-date" id="footerDate">Loading...</div>
+                <div class="footer-time" id="footerTime">Loading...</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="settings.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

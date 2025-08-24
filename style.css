@@ -1803,64 +1803,117 @@ body.has-background .developer-skills h4 {
   margin-bottom: 2rem;
 }
 
+.contact-description {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.contact-description p {
+    margin: 0;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 .contact-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
 }
 
 .contact-link {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  background: var(--bg-tertiary);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: all 0.3s ease;
-  font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.contact-link:hover::before {
+    left: 100%;
 }
 
 .contact-link:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
-  text-decoration: none;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
 }
 
 .contact-link.whatsapp:hover {
-  background: #25D366;
-  color: white;
-  border-color: #25D366;
+    background: linear-gradient(135deg, #25D366 0%, #20BA5A 100%);
+    color: white;
+    border-color: #25D366;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
 }
 
 .contact-link.channel:hover {
-  background: #128C7E;
-  color: white;
-  border-color: #128C7E;
+    background: linear-gradient(135deg, #128C7E 0%, #0F7A6B 100%);
+    color: white;
+    border-color: #128C7E;
+    box-shadow: 0 8px 25px rgba(18, 140, 126, 0.4);
 }
 
 .contact-link.youtube:hover {
-  background: #FF0000;
-  color: white;
-  border-color: #FF0000;
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+    color: white;
+    border-color: #FF0000;
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
 }
 
 .contact-link.gmail:hover {
-  background: #EA4335;
-  color: white;
-  border-color: #EA4335;
+    background: linear-gradient(135deg, #EA4335 0%, #D33B2C 100%);
+    color: white;
+    border-color: #EA4335;
+    box-shadow: 0 8px 25px rgba(234, 67, 53, 0.4);
 }
 
 .contact-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
+    font-size: 2rem;
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
 }
 
 .contact-text {
-  font-weight: 600;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.contact-desc {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    font-weight: 400;
+    line-height: 1.3;
 }
 
 .developer-projects {
@@ -2310,6 +2363,29 @@ body.has-background .footer-clock {
 
   .contact-links {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    padding: 1rem 1.2rem;
+    gap: 1rem;
+  }
+
+  .contact-icon {
+    font-size: 1.8rem;
+  }
+
+  .contact-text {
+    font-size: 1rem;
+  }
+
+  .contact-desc {
+    font-size: 0.8rem;
+  }
+
+  .contact-description {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
   }
 
   .skills-grid {
@@ -2851,15 +2927,15 @@ body.has-background .system-info h4 {
     text-align: center;
     gap: 1rem;
   }
-  
+
   .details-table {
     font-size: 0.9rem;
   }
-  
+
   .detail-label, .detail-value {
     padding: 0.75rem 1rem;
   }
-  
+
   .song-details-actions {
     flex-direction: column;
   }
